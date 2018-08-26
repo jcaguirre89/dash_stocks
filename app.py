@@ -14,10 +14,17 @@ import os
 from flask import send_from_directory
 
 app = dash.Dash()
-# Serve static files
+"""
+# Serve static files from external url
+app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
+"""
+
+# Serving them locally
+
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 appDir = os.path.dirname(os.path.realpath(__file__))
+
 
 # get list of tickers and names for S&P 500
 tickers_and_names = get_tickers()
