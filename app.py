@@ -7,6 +7,7 @@ from dash.dependencies import Input, Output
 
 from price_scraper import Company
 from tickers_scraper import get_tickers
+from news_scraper import get_cnbc_news
 
 import datetime
 import json
@@ -15,17 +16,23 @@ from flask import send_from_directory
 
 app = dash.Dash(__name__)
 server = app.server
-"""
+
 # Serve static files from external url
-app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
-"""
+app.css.append_css({"external_url": "https://codepen.io/jaguirre/pen/NLNqom.css"})
+
 
 # Serving them locally
-
+"""
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 appDir = os.path.dirname(os.path.realpath(__file__))
 
+# include static files (css and js)
+@app.server.route('/static/<path:path>')
+def static_file(path):
+    static_folder = os.path.join(appDir, 'static')
+    return send_from_directory(static_folder, path)
+"""
 
 # get list of tickers and names for S&P 500
 tickers_and_names = get_tickers()
@@ -104,6 +111,8 @@ app.layout = html.Div([
     ],
     className='main-wrapper'
 )
+
+@app.callback(Output())
 
 
 @app.callback(Output('company-data-json', 'children'),
@@ -186,11 +195,7 @@ def price_chart(ticker, start_date, end_date, size=(600, 800)):
     return fig
 
 
-# include static files (css and js)
-@app.server.route('/static/<path:path>')
-def static_file(path):
-    static_folder = os.path.join(appDir, 'static')
-    return send_from_directory(static_folder, path)
+
 
 
 if __name__ == '__main__':
