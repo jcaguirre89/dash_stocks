@@ -49,7 +49,7 @@ app.layout = html.Div([
 
         dcc.Dropdown(
             id='select-ticker',
-            options=[{'label': v, 'value': k} for k, v in tickers_and_names.items()],
+            options=[{'label': k, 'value': v} for k, v in tickers_and_names.items()],
             placeholder='Select a company'
         ),
 
@@ -111,9 +111,6 @@ app.layout = html.Div([
     ],
     className='main-wrapper'
 )
-
-@app.callback(Output())
-
 
 @app.callback(Output('company-data-json', 'children'),
               [Input('select-ticker', 'value')])
