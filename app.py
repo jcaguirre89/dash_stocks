@@ -194,9 +194,5 @@ def price_chart(ticker, start_date, end_date, size=(600, 800)):
 
     return fig
 
-
-
-
-
 if __name__ == '__main__':
     app.run_server(debug=True)
