@@ -5,22 +5,27 @@ import pandas as pd
 import numpy as np
 
 
+
+
 class Security:
     def __init__(self, ticker):
         self.ticker = ticker
 
-    def get_price(self, start, end):
-        """
-        scrapes yahoo finance to get historical adjusted close price and volume
-        returns a dataframe
-        """
+    def _price_url(self, start, end):
         ticker = self.ticker
         # convert to timestamp
         start_ts = int(pd.Timestamp(start).timestamp())
         end_ts = int(pd.Timestamp(end).timestamp())
 
         price_url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?symbol={ticker}&period1={start_ts}&period2={end_ts}&interval=1d&includePrePost=true&events=div%7Csplit%7Cearn&lang=en-US&region=US&crumb=qntR3hW5Tko&corsDomain=finance.yahoo.com"
+        return price_url
 
+    def get_price(self, start, end):
+        """
+        scrapes yahoo finance to get historical adjusted close price and volume
+        returns a dataframe
+        """
+        price_url = self._price_url(start, end)
         with request.urlopen(price_url) as url:
             data = json.loads(url.read().decode())
 
@@ -40,15 +45,7 @@ class Security:
         return df
 
 
-class ETF(Security):
-    def __init__(self, ticker):
-        super().__init__(ticker)
-
-
 class Company(Security):
-    def __init__(self, ticker):
-        super().__init__(ticker)
-
     @property
     def country(self):
         return self.data['country']
