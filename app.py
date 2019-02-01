@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 
 from price_scraper import Company
 from tickers_scraper import get_tickers
-from news_scraper import get_cnbc_news
+#from news_scraper import get_cnbc_news
 
 import datetime
 import json
